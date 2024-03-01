@@ -51,6 +51,10 @@ public:
             std::cout << top->info << " ";
             top = top->next;
         }
+
+        if (top == nullptr) {
+            std::cout << "Value of 0." << endl;
+        }
         std::cout << endl;     
     }
 };
@@ -62,12 +66,27 @@ public:
 
     void binary(int value) {
         int i = 0;
+
         while (value > 0) {
             stack.push(value % 2);
             value = value / 2;
             i++;
         }
         stack.print();
+    }
+
+    void octal(int value) {
+        int i = 0;
+        while (value > 0) {
+            stack.push(value % 8);
+            value = value / 8;
+            i++;
+        }
+        stack.print();
+    }
+
+    void hexaDecimal() {
+
     }
 };
 
@@ -89,15 +108,22 @@ int main()
         std::cout << std::setw(20) << "Choose? "; 
         std::cin >> menuValue;
 
-        if (menuValue > 3 || menuValue < 0) {
+        if (menuValue > 3 || menuValue < 0 || cin.fail()) {
+            std::cout << endl;
             std::cout << "Invalid. Enter a number from the menu provided." << endl;
         }
 
         else {
+            
             switch (menuValue) {
             case 0:
                 std::cin >> userValue;
                 stack.binary(userValue);
+                break;
+            case 1:
+                std::cin >> userValue;
+                stack.octal(userValue);
+                break;
             }
         }
 
