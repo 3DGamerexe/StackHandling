@@ -5,24 +5,70 @@
 #include <string>
 using namespace std;
 
-class IntSLLNode {
+class Node {
 
 public:
     class Stack;
+    class LinkedList;
 
-    IntSLLNode() {
+    Node() {
         next = 0;
     }
-    IntSLLNode(string i, IntSLLNode* in = nullptr) {
+    Node(int i, Node* in = nullptr) {
         info = i;
         next = in;
     }
-    string info;
-    IntSLLNode* next;
+    int info;
+    Node* next;
 };
 
-class IntSLLNode::Stack {
+class Node::LinkedList {
+public:
+    Node* top = nullptr;
 
+    //pushes to the top of the stack
+    void push(int value) {
+        Node* tmp = new Node(value);
+        tmp->next = top;
+        top = tmp;
+    }
+
+    //removes from the top of the stack
+    void pop() {
+        Node* tmp = nullptr;
+        while (tmp->next != top) {
+            tmp = tmp->next;
+        }
+        delete top;
+        top = tmp;
+        top->next = nullptr;
+    }
+
+    //prints the Stack
+    void print() {
+        //Node* current = top;
+        while (top != nullptr) {
+            std::cout << top->info << " ";
+            top = top->next;
+        }
+        std::cout << endl;     
+    }
+};
+
+class Node::Stack {
+public:
+    int current;
+    Node::LinkedList stack;
+
+    void binary(int value) {
+        int i = 0;
+        while (value > 0) {
+            stack.push(value % 2);
+            value = value / 2;
+            i++;
+        }
+        stack.print();
+    }
 };
 
 void Menu() {
@@ -35,10 +81,12 @@ void Menu() {
 int main()
 {
     int menuValue;
-    IntSLLNode::Stack stack;
+    int userValue;
+    Node::Stack stack;
 
     do {
         Menu();
+        std::cout << std::setw(20) << "Choose? "; 
         std::cin >> menuValue;
 
         if (menuValue > 3 || menuValue < 0) {
@@ -46,7 +94,11 @@ int main()
         }
 
         else {
-            std::cout << "Valid. Thank you" << endl;
+            switch (menuValue) {
+            case 0:
+                std::cin >> userValue;
+                stack.binary(userValue);
+            }
         }
 
         if (menuValue == 3) {
