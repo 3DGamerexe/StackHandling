@@ -15,11 +15,11 @@ public:
     Node() {
         next = 0;
     }
-    Node(int i, Node* in = nullptr) {
+    Node(string i, Node* in = nullptr) {
         info = i;
         next = in;
     }
-    int info;
+    string info;
     Node* next;
 };
 
@@ -28,7 +28,7 @@ public:
     Node* top = nullptr;
 
     //pushes to the top of the stack
-    void push(int value) {
+    void push(string value) {
         Node* tmp = new Node(value);
         tmp->next = top;
         top = tmp;
@@ -52,10 +52,6 @@ public:
             std::cout << top->info << " ";
             top = top->next;
         }
-
-        if (top == nullptr) {
-            std::cout << "Value of 0." << endl;
-        }
         std::cout << endl;     
     }
 };
@@ -63,30 +59,37 @@ public:
 class Node::Stack {
 public:
     int current;
+    int intValue;
     Node::LinkedList stack;
 
-    void binary(int value) {
+    void binary(string value) {
+        intValue = stoi(value);
         int i = 0;
 
-        while (value > 0) {
-            stack.push(value % 2);
-            value = value / 2;
+        // MARK: CHANGE 
+        while (intValue > 0) {
+            stack.push(to_string(intValue % 2));
+            intValue = intValue / 2;
             i++;
         }
         stack.print();
     }
 
-    void octal(int value) {
+    void octal(string value) {
         int i = 0;
-        while (value > 0) {
-            stack.push(value % 8);
-            value = value / 8;
+        intValue = stoi(value);
+
+        //MARK: CHANGE
+        while (intValue > 0) {
+            stack.push(to_string(intValue % 8));
+            intValue = intValue / 8;
             i++;
         }
         stack.print();
     }
 
-    void hexaDecimal(int value) {
+    void hexaDecimal(string value) {
+        intValue = stoi(value);
         std::map <int, char> hex = {
             {0, '0'}, {1, '1'}, {2, '2'}, {3, '3'}, {4, '4'},
             {5, '5'}, {6, '6'}, {7, '7'}, {8, '8'}, {9, '9'},
@@ -95,9 +98,10 @@ public:
         };
 
         int i = 0;
-        while (value > 0) {
-            stack.push(value % 16);
-            value = value / 16;
+        //MARK: CHANGE
+        while (intValue > 0) {
+            stack.push(to_string(intValue % 16));
+            value = intValue / 16;
             i++;
         }
 
@@ -114,7 +118,7 @@ void Menu() {
 int main()
 {
     int menuValue;
-    int userValue;
+    string userValue;
     Node::Stack stack;
 
     do {
