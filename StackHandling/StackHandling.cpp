@@ -26,6 +26,7 @@ public:
 class Node::LinkedList {
 public:
     Node* top = nullptr;
+    Node* tmp = nullptr;
 
     //pushes to the top of the stack
     void push(string value) {
@@ -36,7 +37,6 @@ public:
 
     //removes from the top of the stack
     void pop() {
-        Node* tmp = nullptr;
         while (tmp->next != top) {
             tmp = tmp->next;
         }
@@ -52,14 +52,14 @@ public:
             std::cout << top->info << " ";
             top = top->next;
         }
-        std::cout << endl;     
     }
+
 };
 
 class Node::Stack {
 public:
-    int current;
-    int intValue;
+    int current = 0;
+    int intValue = 0;
     Node::LinkedList stack;
 
     void binary(string value) {
@@ -72,6 +72,10 @@ public:
             intValue = intValue / 2;
             i++;
         }
+        
+        if (value == "0") {
+            stack.push(value);
+        }
         stack.print();
     }
 
@@ -79,32 +83,38 @@ public:
         int i = 0;
         intValue = stoi(value);
 
-        //MARK: CHANGE
         while (intValue > 0) {
             stack.push(to_string(intValue % 8));
             intValue = intValue / 8;
             i++;
+        }
+
+        if (value == "0") {
+            stack.push(value);
         }
         stack.print();
     }
 
     void hexaDecimal(string value) {
         intValue = stoi(value);
-        std::map <int, char> hex = {
-            {0, '0'}, {1, '1'}, {2, '2'}, {3, '3'}, {4, '4'},
-            {5, '5'}, {6, '6'}, {7, '7'}, {8, '8'}, {9, '9'},
-            {10, 'A'}, {11, 'B'}, {12, 'C'}, {13, 'D'}, 
-            {14, 'E'}, {15, 'F'}
+        std::map <int, string> hex = {
+            {0, "0"}, {1, "1"}, {2, "2"}, {3, "3"}, {4, "4"},
+            {5, "5"}, {6, "6"}, {7, "7"}, {8, "8"}, {9, "9"},
+            {10, "A"}, {11, "B"}, {12, "C"}, {13, "D"},
+            {14, "E"}, {15, "F"}
         };
 
-        int i = 0;
-        //MARK: CHANGE
-        while (intValue > 0) {
-            stack.push(to_string(intValue % 16));
-            value = intValue / 16;
-            i++;
+        int remainder = intValue % 16;
+        if (remainder < 16) {
+            stack.push(hex.at(remainder));
         }
 
+        while (intValue > 15) {          
+            stack.push(to_string(intValue / 16));    
+            intValue = intValue / 16;
+        }    
+        
+        stack.print();
     }
 };
 
@@ -150,7 +160,7 @@ int main()
         }
 
         if (menuValue == 3) {
-            std::cout << "Thank you. Have a nice day!" << endl;
+            std::cout << "Thank you! Have a nice day!" << endl;
         }
     } while (menuValue != 3);
 
