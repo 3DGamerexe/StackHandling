@@ -3,6 +3,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <map>
 using namespace std;
 
 class Node {
@@ -85,7 +86,20 @@ public:
         stack.print();
     }
 
-    void hexaDecimal() {
+    void hexaDecimal(int value) {
+        std::map <int, char> hex = {
+            {0, '0'}, {1, '1'}, {2, '2'}, {3, '3'}, {4, '4'},
+            {5, '5'}, {6, '6'}, {7, '7'}, {8, '8'}, {9, '9'},
+            {10, 'A'}, {11, 'B'}, {12, 'C'}, {13, 'D'}, 
+            {14, 'E'}, {15, 'F'}
+        };
+
+        int i = 0;
+        while (value > 0) {
+            stack.push(value % 16);
+            value = value / 16;
+            i++;
+        }
 
     }
 };
@@ -123,6 +137,10 @@ int main()
             case 1:
                 std::cin >> userValue;
                 stack.octal(userValue);
+                break;
+            case 2:
+                std::cin >> userValue;
+                stack.hexaDecimal(userValue);
                 break;
             }
         }
